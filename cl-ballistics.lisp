@@ -13,14 +13,20 @@
 
 (defconstant +to-degrees+ (/ 180 pi))
 
+(defconstant +standard-altitude+ 0)
+
+(defconstant +standard-temperature+ 32)
+
+(defconstant +standard-humidity+ 1)
+
 ;;; Atmospheric Functions
 
 (defun calc-fp (pressure)
-  (declare (rational pressure))
+  (declare (real pressure))
   (/ (- pressure +standard-pressure+) +standard-pressure+))
 
 (defun calc-fr (temperature pressure relative-humidity)
-  (declare (rational temperature pressure relative-humidity))
+  (declare (real temperature pressure relative-humidity))
   (let ((vpw (- (* 4e-6 (expt temperature 3))
                 (+ (* 4e-4 (expt temperature 2))
                    (* 0.0234 temperature))
@@ -31,23 +37,23 @@
                       vpw)))))
 
 (defun calc-ft (temperature altitude)
-  (declare (rational temperature altitude))
+  (declare (real temperature altitude))
   (let ((tstd (+ (* -0.0036 altitude) 59)))
     (/ (- temperature tstd)
        (- 459.6 tstd))))
 
 (defun calc-fa (altitude)
-  (declare (rational altitude))
+  (declare (real altitude))
   (/ 1 (+ (* -4e-15 (expt altitude 3))
           (* 4e-10 (expt altitude 2))
           (* -3e-5 altitude)
           1)))
 
-(defun atmospheric-correction (drag-coefficient altitude pressure temperature relative-humidity)
-  (declare (rational drag-coefficient altitude pressure temperature relative-humidity))
+(defun atmospheric-correction (drag-coefficient &optional (altitude +standard-altitude+) (pressure +standard-pressure+) (temperature +standard-temperature+) (relative-humidity +standard-humidity+))
+  (declare (real drag-coefficient altitude pressure temperature relative-humidity))
   (let* ((altitude-correction (calc-fa altitude))
          (temperature-correction (calc-ft temperature altitude))
-         (humidity-correction (calc-fr temperatuer pressure relative-humidity))
+         (humidity-correction (calc-fr temperature pressure relative-humidity))
          (pressure-correction (calc-fp pressure))
          (correction-factor (* altitude-correction
                                (- (+ 1 temperature-correction)
