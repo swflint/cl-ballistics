@@ -9,6 +9,10 @@
 
 (defconstant +standard-pressure+ 29.92)
 
+(defconstant +to-radians+ (/ pi 180))
+
+(defconstant +to-degrees+ (/ 180 pi))
+
 ;;; Atmospheric Functions
 
 (defun calc-fp (pressure)
@@ -53,10 +57,37 @@
 
 (export 'atmospheric-correction)
 
+;;; G-function retardation
+
 ;;; Angular conversion functions
-;; degree-to-moa : *60
-;; degree-to-radian :  * (π / 180)
-;; moa-to-degree : / 60
-;; moa-to-radian : / 60 * (π / 180)
-;; radian-to-degree : * (180 / π)
-;; radian-to-moa : * 60 * (180 / π)
+
+(defun degrees-to-moa (degrees)
+  (declare (real degrees))
+  (* degrees 60))
+
+(defun degrees-to-radians (degrees)
+  (declare (real degrees))
+  (* degrees +to-radians+))
+
+(defun moa-to-degrees (moa)
+  (declare (real moa))
+  (/ moa 60))
+
+(defun moa-to-radians (moa)
+  (declare (real moa))
+  (degrees-to-radians (moa-to-degrees moa)))
+
+(defun radians-to-degrees (radians)
+  (declare (real radians))
+  (* radians +to-degrees+))
+
+(defun radians-to-moa (radians)
+  (declare (real radians))
+  (degrees-to-moa (radians-to-degrees radians)))
+
+(export '(degrees-to-moa
+          degrees-to-radians
+          moa-to-degrees
+          moa-to-radians
+          radians-to-degrees
+          radians-to-moa))
