@@ -91,3 +91,31 @@
           moa-to-radians
           radians-to-degrees
           radians-to-moa))
+
+;;; Windage functions
+
+(defun windage (wind-speed vi xx tv)
+  (declare (real wind-speed vi xx tv))
+  (let ((wind-speed-inches-per-second (* wind-speed 17.60)))
+    (* wind-speed-inches-per-second (/ (- tv xx) vi))))
+
+(defun head-wind (wind-speed wind-angle)
+  (declare (real wind-speed wind-angle))
+  (* (cos (degrees-to-radians wind-angle))
+     wind-speed))
+
+(defun cross-wind (wind-speed wind-angle)
+  (* (sin (degrees-to-radians wind-angle))
+     wind-speed))
+
+(export '(windage
+          head-wind
+          cross-wind))
+
+;;; Bore angle functions
+
+
+;;; Solving
+
+
+;;; Retrieving Data
