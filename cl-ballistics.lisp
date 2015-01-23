@@ -79,11 +79,29 @@
 
 ;;; G-function retardation
 
-;; (defun retard (drag-function drag-coefficient velocity)
-;;   (declare (integer drag-function)
-;;            (real drag-coefficient velocity))
-;;   (let (())
-;;     ))
+(defun retrieve-a-m (drag-function velocity)
+  (ecase drag-function
+    (:g1
+     (cond
+       ((> velocity 4230) (values 1.477404177730177e-04 1.9565))
+       ((> velocity 3680) (values 1.920339268755614e-04 1.925))
+       ((> velocity 3450) (values 2.894751026819746e-04 1.875))
+       ((> velocity 3295) (values 4.349905111115636e-04 1.825))))
+    (:g2)
+    (:g3)
+    (:g4)
+    (:g5)
+    (:g6)
+    (:g7)
+    (:g8)))
+
+(defun retard (drag-function drag-coefficient velocity)
+  (declare (integer drag-function)
+           (real drag-coefficient velocity))
+  (let ((val -1)
+        (a (ecase drag-function))
+        (m (ecase drag-function)))
+    ))
 
 ;;; Angular conversion functions
 
@@ -180,11 +198,7 @@
                    gx gy
                    angle)
              (integer quit))
-    (loop for angle = (+ angle da)
-       if (= quit 1)
-       return (radians-to-degrees angle)
-       else
-         )))
+    (iter)))
 
 ;;; Solving
 
