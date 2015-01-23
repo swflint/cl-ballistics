@@ -4,7 +4,8 @@
   :description "Describe cl-ballistics here"
   :author "Samuel W. Flint <swflint@flintfam.org"
   :license "GNU GPL"
-  :depends-on (#:cl-mathstats)
+  :depends-on (#:cl-mathstats
+               #:iterate)
   :serial t
   :components ((:file "package")
                (:file "cl-ballistics")))
