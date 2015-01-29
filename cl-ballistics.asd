@@ -1,7 +1,7 @@
 ;;;; cl-ballistics.asd
 
 (asdf:defsystem #:cl-ballistics
-  :description "Describe cl-ballistics here"
+  :description "A library to deal with ballistics data and produce ballistics solutions."
   :author "Samuel W. Flint <swflint@flintfam.org"
   :license "GNU GPL"
   :depends-on (#:cl-mathstats
